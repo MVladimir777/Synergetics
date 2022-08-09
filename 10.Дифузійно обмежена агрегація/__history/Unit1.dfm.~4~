@@ -1,0 +1,119 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 565
+  ClientWidth = 973
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Chart1: TChart
+    Left = 8
+    Top = 8
+    Width = 550
+    Height = 550
+    Legend.Visible = False
+    MarginBottom = 0
+    MarginLeft = 0
+    MarginRight = 0
+    MarginTop = 0
+    Title.Text.Strings = (
+      'TChart')
+    Title.Visible = False
+    LeftAxis.Visible = False
+    View3D = False
+    TabOrder = 0
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
+    object Series1: TBubbleSeries
+      Marks.Frame.Visible = False
+      ClickableLine = False
+      Pointer.HorizSize = 58
+      Pointer.InflateMargins = True
+      Pointer.Style = psCircle
+      Pointer.VertSize = 58
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Y'
+      YValues.Order = loNone
+      RadiusValues.Name = 'Radius'
+      RadiusValues.Order = loNone
+    end
+  end
+  object Button1: TButton
+    Left = 728
+    Top = 241
+    Width = 115
+    Height = 25
+    Caption = 'Start'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 849
+    Top = 241
+    Width = 115
+    Height = 25
+    Caption = 'Stop'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+    OnClick = Button2Click
+  end
+  object Chart2: TChart
+    Left = 564
+    Top = 280
+    Width = 400
+    Height = 278
+    Legend.Visible = False
+    Title.Text.Strings = (
+      'TChart')
+    Title.Visible = False
+    View3D = False
+    TabOrder = 3
+    DefaultCanvas = 'TGDIPlusCanvas'
+    ColorPaletteIndex = 13
+    object Series2: TLineSeries
+      Brush.BackColor = clDefault
+      Pointer.InflateMargins = True
+      Pointer.Style = psRectangle
+      XValues.Name = 'X'
+      XValues.Order = loAscending
+      YValues.Name = 'Y'
+      YValues.Order = loNone
+    end
+  end
+  object LabeledEdit1: TLabeledEdit
+    Left = 564
+    Top = 32
+    Width = 121
+    Height = 21
+    EditLabel.Width = 85
+    EditLabel.Height = 19
+    EditLabel.Caption = #1056#1072#1076#1110#1091#1089' '#1087#1086#1083#1103
+    EditLabel.Font.Charset = DEFAULT_CHARSET
+    EditLabel.Font.Color = clWindowText
+    EditLabel.Font.Height = -16
+    EditLabel.Font.Name = 'Tahoma'
+    EditLabel.Font.Style = []
+    EditLabel.ParentFont = False
+    TabOrder = 4
+    Text = '5'
+  end
+end
