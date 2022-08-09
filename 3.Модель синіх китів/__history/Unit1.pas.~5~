@@ -1,0 +1,161 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, Vcl.StdCtrls,
+  VclTee.TeEngine, VclTee.Series, Vcl.ExtCtrls, VclTee.TeeProcs, VclTee.Chart;
+
+type
+  TForm1 = class(TForm)
+    Chart1: TChart;
+    Series1: TPointSeries;
+    Button1: TButton;
+    Label1: TLabel;
+    Edit1: TEdit;
+    Label2: TLabel;
+    Edit2: TEdit;
+    Series2: TLineSeries;
+    Series3: TLineSeries;
+    Series4: TLineSeries;
+    Series5: TLineSeries;
+    Series6: TLineSeries;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  dt, max, a, b, c, d, x, x1, x2, x3, x11, x22, x33, r: Real;
+  Alf, Bet, Sig, Gam, a1, b1, c1, d1: Integer;
+  i: Integer;
+begin
+  Series1.Clear;
+  Series2.Clear;
+  Series3.Clear;
+  Series4.Clear;
+  Series5.Clear;
+  Series6.Clear;
+
+  dt := 0.01;
+  max := 0;
+
+  for Alf := 1 to 10 do
+    for Bet := 1 to 10 do
+      for Gam := 1 to 10 do
+        for Sig := 1 to 10 do
+        begin
+          a := Sig * dt;
+          b := Gam * dt + Sig * Bet - Alf * Bet;
+          c := Gam * Bet;
+          d := b * b - 4 * a * c;
+
+          if d >= 0 then
+          begin
+            x1 := 0;
+            x2 := (-b + Sqrt(d)) / (2 * a);
+            x3 := (-b - Sqrt(d)) / (2 * a);
+
+            if (x2 > 0) and (x3 > 0) then
+            begin
+              a1 := Alf;
+              b1 := Bet;
+              c1 := Sig;
+              d1 := Gam;
+              x11 := x1;
+              x22 := x2;
+              x33 := x3;
+            end;
+
+            // r := Sqrt(Sqr(x2 - x1) + Sqr(x3 - x2));
+            //
+            // if (r > max) and (r < 50) then
+            // begin
+            // max := r;
+            // a1 := Alf;
+            // b1 := Bet;
+            // c1 := Sig;
+            // d1 := Gam;
+            // x11 := x1;
+            // x22 := x2;
+            // x33 := x3;
+            // end;
+          end;
+        end;
+
+  Alf := a1;
+  Bet := b1;
+  Sig := c1;
+  Gam := d1;
+
+  x := x11;
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series1.AddXY(i * dt, x)
+  end;
+
+  x := x22;
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series1.AddXY(i * dt, x)
+  end;
+
+  x := x33;
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series1.AddXY(i * dt, x)
+  end;
+
+  x := x11 + (random(2) + 1);
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series2.AddXY(i * dt, x)
+  end;
+
+  x := x22 + (random(2) + 1);
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series3.AddXY(i * dt, x)
+  end;
+
+  x := x22 - (random(2) + 1);
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series4.AddXY(i * dt, x)
+  end;
+
+  x := x33 + (random(2) + 1);
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series5.AddXY(i * dt, x)
+  end;
+
+  x := x33 - (random(2) + 1);
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series6.AddXY(i * dt, x)
+  end;
+
+end;
+
+end.

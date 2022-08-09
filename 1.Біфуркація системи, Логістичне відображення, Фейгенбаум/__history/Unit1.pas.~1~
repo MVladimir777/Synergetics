@@ -1,0 +1,71 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, VCLTee.TeEngine,
+  VCLTee.Series, Vcl.StdCtrls, Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart;
+
+type
+  TForm1 = class(TForm)
+    Chart1: TChart;
+    Button1: TButton;
+    Series1: TPointSeries;
+    Edit1: TEdit;
+    Label1: TLabel;
+    Edit2: TEdit;
+    Label2: TLabel;
+    Edit3: TEdit;
+    Label3: TLabel;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  lam1, lam2, step, lam, dlam, x: Real;
+  j: Integer;
+begin
+  Series1.Clear;
+
+  lam1 := StrToFloat(Edit1.Text);
+  lam2 := StrToFloat(Edit2.Text);
+  step := StrToFloat(Edit3.Text);
+
+  lam := lam1;
+  dlam := (lam2 - lam1) / step;
+  
+  while lam <= lam2 do
+    begin
+      x := random;
+
+      for j := 1 to 300 do
+        begin
+          x := lam * x * (1 - x);
+        end;
+
+      for j := 1 to 200 do
+        begin
+          x := lam * x * (1 - x);
+          Series1.AddXY(lam, x);
+          //Application.ProcessMessages;
+        end;
+        
+      lam := lam + dlam;
+    end;
+
+
+end;
+
+end.

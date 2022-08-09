@@ -1,0 +1,96 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, Vcl.StdCtrls,
+  VclTee.TeEngine, VclTee.Series, Vcl.ExtCtrls, VclTee.TeeProcs, VclTee.Chart;
+
+type
+  TForm1 = class(TForm)
+    Chart1: TChart;
+    Series1: TPointSeries;
+    Button1: TButton;
+    Label1: TLabel;
+    Edit1: TEdit;
+    Label2: TLabel;
+    Edit2: TEdit;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  dt, max, a, b, c, d, x, x1, x2, x3: Real;
+  Alf, Bet, Sig, Gam: Integer;
+  i: Integer;
+begin
+  Series1.Clear;
+
+  dt := 0.1;
+  max :=0;
+
+  for Alf := 0 to 10 do
+    for Bet := 0 to 10 do
+      for Gam := 0 to 10 do
+        for Sig := 0 to 10 do
+        begin
+          a := Sig * dt;
+          b := Gam * dt + Sig * Bet - Alf * Bet;
+          c := Gam * Bet;
+          d := b * b - 4 * a * c;
+
+          x1 := 0;
+          x2 := (-b + Sqrt(d)) / (2 * a);
+          x3 := (-b - Sqrt(d)) / (2 * a);
+
+          if Sqrt(Sqr(x2 - x1) + Sqr(x3 - x2)) > max then
+          max := Sqrt(Sqr(x2 - x1) + Sqr(x3 - x2));
+
+        end;
+
+  Series1.AddXY(0, x);
+
+  x := x1;
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series1.AddXY(i * dt, x)
+  end;
+
+  x := x2;
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series1.AddXY(i * dt, x)
+  end;
+
+  x := x3;
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series1.AddXY(i * dt, x)
+  end;
+
+  x := x2 + 3;
+  for i := 0 to 100 do
+  begin
+    x := x + (Alf * Bet * x * x / (Bet + dt * x) - Gam * x - Sig * x * x) * dt;
+    Series1.AddXY(i * dt, x)
+  end;
+
+end;
+
+end.
