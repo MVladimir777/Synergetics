@@ -1,0 +1,67 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, VCLTee.TeEngine,
+  VCLTee.Series, Vcl.StdCtrls, Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart;
+
+type
+  TForm1 = class(TForm)
+    Chart1: TChart;
+    Button1: TButton;
+    Label1: TLabel;
+    Edit1: TEdit;
+    Series1: TLineSeries;
+    Label2: TLabel;
+    Edit2: TEdit;
+    Chart2: TChart;
+    Chart3: TChart;
+    Chart4: TChart;
+    Label3: TLabel;
+    Edit3: TEdit;
+    Label4: TLabel;
+    Edit4: TEdit;
+    Label5: TLabel;
+    Edit5: TEdit;
+    Series2: TLineSeries;
+    Series3: TLineSeries;
+    Series4: TLineSeries;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  x0, y0, z0, dt, t:real;
+begin
+  x0 := strtoFloat(edit1.Text);
+  y0 := strtoFloat(edit2.Text);
+  z0 := strtoFloat(edit3.Text);
+  dt := strtoFloat(edit4.Text);
+  tf := strtoFloat(edit5.Text);
+
+  series1.Clear;
+  series2.Clear;
+  series3.Clear;
+  series4.Clear;
+
+  while t < tf do
+  begin
+
+  end;
+
+end;
+
+end.

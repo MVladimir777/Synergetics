@@ -1,0 +1,178 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, Vcl.StdCtrls,
+  VclTee.TeEngine, VclTee.Series, Vcl.ExtCtrls, VclTee.TeeProcs, VclTee.Chart;
+
+type
+  TForm1 = class(TForm)
+    Chart1: TChart;
+    Button1: TButton;
+    Button2: TButton;
+    Label1: TLabel;
+    Edit1: TEdit;
+    Label2: TLabel;
+    Edit2: TEdit;
+    Label3: TLabel;
+    Edit3: TEdit;
+    Label4: TLabel;
+    Edit4: TEdit;
+    Label5: TLabel;
+    Edit5: TEdit;
+    Label6: TLabel;
+    Edit6: TEdit;
+    Chart2: TChart;
+    Series1: TLineSeries;
+    Series2: TLineSeries;
+    Chart3: TChart;
+    Series3: TLineSeries;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Edit7: TEdit;
+    Edit8: TEdit;
+    Edit9: TEdit;
+    Label10: TLabel;
+    Label11: TLabel;
+    Edit10: TEdit;
+    Edit11: TEdit;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  flag: boolean;
+  U, Un: array of double;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  A, B, time, dt, t, X, Y, a1, b1, d1, d2, x1, y1: Real;
+  n, i: Integer;
+begin
+  flag := True;
+
+  Series1.Clear;
+  Series2.Clear;
+  Series3.Clear;
+
+  A := StrToFloat(Edit1.Text);
+  B := StrToFloat(Edit2.Text);
+  time := StrToFloat(Edit3.Text);
+  dt := StrToFloat(Edit4.Text);
+  X := StrToFloat(Edit5.Text);
+  Y := StrToFloat(Edit6.Text);
+  a1 := StrToFloat(edit7.Text);
+  b1 := StrToFloat(edit8.Text);
+  n := StrToInt(edit9.Text);
+  d1 := StrToFloat(edit10.Text);
+  d2 := StrToFloat(edit11.Text);
+
+  Setlength(U, n);
+  Setlength(Un, n);
+  dx := (b1 - a1) / n;
+  x1 := a1;
+
+  for i := 0 to n do
+  begin
+    U[i] := 0;
+  end;
+
+  Un := U;
+  t := 0;
+
+
+  while (t < time) and flag do
+  begin
+    X := X + (A - (B + 1) * X + X * X * Y) * dt;
+    Y := Y + (B * X - X * X * Y) * dt;
+    t := t + dt;
+
+    if t > 0 then
+    begin
+      Series1.AddXY(x, y);
+      Series2.AddXY(t, x);
+      Series3.AddXY(t, y);
+    end;
+
+    Application.ProcessMessages;
+  end;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  flag := False;
+end;
+
+end.
+
+
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  a, b, k1, k2, dt, t_min, t_max, dx, t, x: double;
+  time, n, i: integer;
+begin
+  a := strtofloat(edit1.Text);
+  b := strtofloat(edit2.Text);
+  n := strtoint(edit3.Text);
+  k1 := strtofloat(edit4.Text);
+  k2 := strtofloat(edit5.Text);
+  time := strtoint(edit6.Text);
+  dt := strtofloat(edit7.Text);
+  t_min := strtofloat(edit8.Text);
+  t_max := strtofloat(edit9.Text);
+
+  flag := True;
+  Setlength(U, n);
+  Setlength(Un, n);
+  dx := (b - a) / n;
+  x := a;
+
+  for i := 0 to n do
+  begin
+    U[i] := sin(pi * x);
+    x := x + dx;
+  end;
+
+  Un := U;
+  t := 0;
+
+  while (t <= time) and flag do
+  begin
+    for i := 1 to n-1 do
+    begin
+      Un[i] := U[i] + (U[i+1] - 2*U[i] + U[i-1]) * sqr(k1) * dt / sqr(dx)
+        + k2 * U[i] * dt;
+    end;
+
+    un[0] := t_min;
+    un[n] := t_max;
+    U := Un;
+
+    Series1.Clear;
+    x := a;
+
+    for i := 0 to n do
+    begin
+      Series1.AddXY(x, U[i]);
+      x := x + dx;
+    end;
+
+    Application.ProcessMessages;
+    t := t + dt;
+   end;
+
+end;

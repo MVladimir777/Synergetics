@@ -1,0 +1,88 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, VCLTee.TeEngine,
+  VCLTee.Series, Vcl.StdCtrls, Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart;
+
+type
+  TForm1 = class(TForm)
+    Chart1: TChart;
+    Button1: TButton;
+    Label1: TLabel;
+    Series1: TLineSeries;
+    Label2: TLabel;
+    Chart2: TChart;
+    Chart3: TChart;
+    Chart4: TChart;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Series2: TLineSeries;
+    Series3: TLineSeries;
+    Series4: TLineSeries;
+    Label6: TLabel;
+    Label7: TLabel;
+    ComboBox1: TComboBox;
+    ComboBox2: TComboBox;
+    ComboBox3: TComboBox;
+    ComboBox4: TComboBox;
+    ComboBox5: TComboBox;
+    ComboBox6: TComboBox;
+    ComboBox7: TComboBox;
+    ComboBox8: TComboBox;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  x0, y0, z0, dt, tf, s, r, b, t, x, y, z:real;
+begin
+  x0 := strtoFloat(edit1.Text);
+  y0 := strtoFloat(edit2.Text);
+  z0 := strtoFloat(edit3.Text);
+  dt := strtoFloat(edit4.Text);
+  tf := strtoFloat(edit5.Text);
+  s := strtoFloat(edit6.Text);
+  r := strtoFloat(edit7.Text);
+  b := 8 / 3;
+
+  series1.Clear;
+  series2.Clear;
+  series3.Clear;
+  series4.Clear;
+
+  t := 0;
+  x := x0;
+  y := y0;
+  z := z0;
+
+  while t < tf do
+  begin
+    series1.AddXY(t, x);
+    series2.AddXY(y, x);
+    series3.AddXY(z, y);
+    series4.AddXY(z, x);
+    x := x + (s * y - s * x) * dt;
+    y := y + (-x * z + r * x - y) * dt;
+    z := z + (x * y - b * z) * dt;
+    t := t + dt;
+    //Application.ProcessMessages;
+  end;
+
+end;
+
+end.

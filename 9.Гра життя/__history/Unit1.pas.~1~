@@ -1,0 +1,109 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, Vcl.StdCtrls,
+  VclTee.TeEngine, VclTee.Series, Vcl.ExtCtrls, VclTee.TeeProcs, VclTee.Chart;
+
+type
+  TForm1 = class(TForm)
+    Chart1: TChart;
+    Series1: TPointSeries;
+    Button1: TButton;
+    Button2: TButton;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  flag: Boolean;
+  a, a1: array [1 .. 40, 1 .. 40] of Integer;
+  n, i, j, k, s: Integer;
+
+implementation
+
+{$R *.dfm}
+
+function BC(ind: Integer): Integer;
+begin
+  BC := ind;
+  if ind < 1 then
+    BC := ind + n;
+
+  if ind > n then
+    BC := ind - n;
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  flag := True;
+
+  Series1.Clear;
+
+  n := 40;
+
+  for i := 1 to n do
+    for j := 1 to n do
+    begin
+      a[i, j] := 0;
+    end;
+
+  a[2, 2] := 1;
+  a[2, 3] := 1;
+  a[2, 4] := 1;
+
+  for i := 1 to n do
+    for j := 1 to n do
+    begin
+      if a[i, j] = 0 then
+        Series1.AddXY(i, j, '', clWhite)
+      else
+        Series1.AddXY(i, j, '', clBlack);
+    end;
+
+  while flag do
+  begin
+    for i := 1 to n do
+      for j := 1 to n do
+      begin
+        s := 0;
+
+          s := a[BK(i - 1), BK(j)] + a[BK(i + 1), BK(j)] + a[BK(i), BK(j - 1)] +
+            a[BK(i), BK(j + 1)];
+
+        if s >= 3 then
+          a1[i, j] := 1
+        else
+          a1[i, j] := 0;
+      end;
+
+    a := a1;
+
+    for i := 1 to n do
+      for j := 1 to n do
+      begin
+        if a[i, j] = 0 then
+          Series1.AddXY(i, j, '', clWhite)
+        else
+          Series1.AddXY(i, j, '', clBlack);
+      end;
+
+    Application.ProcessMessages;
+  end;
+
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  flag := False;
+end;
+
+end.

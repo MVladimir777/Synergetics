@@ -1,0 +1,123 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, Vcl.StdCtrls,
+  VclTee.TeEngine, VclTee.Series, Vcl.ExtCtrls, VclTee.TeeProcs, VclTee.Chart;
+
+type
+  TForm1 = class(TForm)
+    Chart1: TChart;
+    Button1: TButton;
+    Label1: TLabel;
+    ComboBox1: TComboBox;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Label3: TLabel;
+    Edit2: TEdit;
+    Label4: TLabel;
+    Edit3: TEdit;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Button2: TButton;
+    ComboBox2: TComboBox;
+    ComboBox3: TComboBox;
+    ComboBox4: TComboBox;
+    Chart2: TChart;
+    Chart3: TChart;
+    Chart4: TChart;
+    Chart5: TChart;
+    Chart6: TChart;
+    Series2: TLineSeries;
+    Series1: TLineSeries;
+    Series3: TLineSeries;
+    Series4: TPointSeries;
+    Series5: TPointSeries;
+    Series6: TPointSeries;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  flag: boolean;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var
+  alp, bet, time, t, dt, x0, y0, z0, x, y, z, h: Real;
+begin
+  flag := True;
+
+  Series1.Clear;
+  Series2.Clear;
+  Series3.Clear;
+  Series4.Clear;
+  Series5.Clear;
+  Series6.Clear;
+
+  alp := StrToFloat(ComboBox1.Text);
+  bet := StrToFloat(Edit1.Text);
+  time := StrToFloat(Edit2.Text);
+  dt := StrToFloat(Edit3.Text);
+  x0 := StrToFloat(ComboBox2.Text);
+  y0 := StrToFloat(ComboBox3.Text);
+  z0 := StrToFloat(ComboBox4.Text);
+
+  t := 0;
+  x := x0;
+  y := y0;
+  z := z0;
+
+//  Series1.AddXY(t, x);
+//  Series2.AddXY(t, y);
+//  Series3.AddXY(t, z);
+//  Series4.AddXY(x, y);
+//  Series5.AddXY(x, z);
+//  Series6.AddXY(y, z);
+
+  while (t < time) and flag do
+  begin
+    if x <= -1 then
+      h := (2 * x + 3) / 7
+    else if (-1 <= x) and (x <= 1) then
+      h := -x / 7
+    else
+      h := (2 * x - 3) / 7;
+
+    x := x + alp * (y - h) * dt;
+    y := y + (x - y + z) * dt;
+    z := z + (-bet * y) * dt;
+    t := t + dt;
+
+    if t >= 40 then
+    begin
+      Series1.AddXY(t, x);
+      Series2.AddXY(t, y);
+      Series3.AddXY(t, z);
+      Series4.AddXY(x, y);
+      Series5.AddXY(x, z);
+      Series6.AddXY(y, z);
+    end;
+
+    Application.ProcessMessages;
+  end;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  flag := False;
+end;
+
+end.
